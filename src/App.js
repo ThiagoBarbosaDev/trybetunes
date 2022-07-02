@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import Search from './pages/Search';
+import searchAlbumsAPI from './services/searchAlbumsAPI';
 
 class App extends React.Component {
   constructor() {
@@ -16,6 +17,9 @@ class App extends React.Component {
       isLoginButtonDisabled: true,
       searchInput: '',
       isSearchButtonDisabled: true,
+      albumData: [],
+      isSearchLoading: false,
+      lastSearchQuery: '',
     };
   }
 
@@ -43,10 +47,26 @@ class App extends React.Component {
     });
   }
 
+  handleOnClickSearch = async () => {
+    const { searchInput } = this.state;
+    this.setState({ isSearchLoading: true, lastSearchQuery: searchInput });
+    const response = await searchAlbumsAPI(searchInput);
+    // console.log(searchInput);
+    // console.log(response);
+    const filteredResponse = response
+      .filter((data) => data.artistName
+        .toLowerCase()
+        .includes(searchInput.toLowerCase()));
+    this.setState({
+      isSearchLoading: false,
+      searchInput: '',
+      albumData: filteredResponse });
+  }
+
   render() {
     return (
       <Switch>
-        <Route path="/album/:id" component={ Album } />
+        <Route path="/album/:id" render={ (props) => <Album { ...props } /> } />
         <Route path="/profile/edit" component={ ProfileEdit } />
         <Route path="/profile" component={ Profile } />
         <Route path="/favorites" component={ Favorites } />
@@ -58,6 +78,7 @@ class App extends React.Component {
               { ...this.state }
               handleChange={ this.handleChange }
               handleSearchButtonValidation={ this.handleSearchButtonValidation }
+              handleOnClickSearch={ this.handleOnClickSearch }
             />
           ) }
         />

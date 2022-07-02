@@ -14,26 +14,17 @@ class Login extends React.Component {
   }
 
   handleLogIn = async () => {
-    const {
-      logInInputUser,
-      history: { push },
-    } = this.props;
+    const { logInInputUser, history: { push } } = this.props;
     this.setState((prevState) => ({ isLoading: !prevState.loading }));
     await createUser({ name: logInInputUser });
     push('/search');
-  };
+  }
 
   render() {
-    const {
-      logInInputUser,
-      handleChange,
-      isLoginButtonDisabled,
-      handleButtonValidation,
-    } = this.props;
+    const { logInInputUser, handleChange, isLoginButtonDisabled,
+      handleButtonValidation } = this.props;
     const { isLoading } = this.state;
-    return isLoading ? (
-      <Loading />
-    ) : (
+    return (
       <div data-testid="page-login">
         Login
         <Input
@@ -53,6 +44,7 @@ class Login extends React.Component {
         >
           Entrar
         </Button>
+        {isLoading && <Loading />}
       </div>
     );
   }

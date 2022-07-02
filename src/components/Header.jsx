@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import { getUser } from '../services/userAPI';
 import Loading from './Loading';
@@ -28,6 +29,11 @@ class Header extends React.Component {
       <header
         data-testid="header-component"
       >
+        <ul>
+          <li><Link to="/search " data-testid="link-to-search">Search</Link></li>
+          <li><Link to="/favorites " data-testid="link-to-favorites">Favorites</Link></li>
+          <li><Link to="/profile" data-testid="link-to-profile">Perfil</Link></li>
+        </ul>
         {isLoading ? (
           <Loading />
         ) : (

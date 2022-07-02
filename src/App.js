@@ -14,12 +14,15 @@ class App extends React.Component {
     this.state = {
       logInInputUser: '',
       isLoginButtonDisabled: true,
+      searchInput: '',
+      isSearchButtonDisabled: true,
     };
   }
 
   handleChange = ({ target: { value, checked, type, name } }, callback) => {
     const val = type === 'checkbox' ? checked : value;
-    this.setState({ [name]: val }, () => callback());
+    if (callback) this.setState({ [name]: val }, () => callback());
+    this.setState({ [name]: val });
   }
 
   handleButtonValidation = () => {
@@ -31,6 +34,15 @@ class App extends React.Component {
     });
   }
 
+  handleSearchButtonValidation = () => {
+    const { searchInput } = this.state;
+    const minUserInputLength = 2;
+    const isMinLengthValid = searchInput.length < minUserInputLength;
+    this.setState({
+      isSearchButtonDisabled: isMinLengthValid,
+    });
+  }
+
   render() {
     return (
       <Switch>
@@ -38,7 +50,17 @@ class App extends React.Component {
         <Route path="/profile/edit" component={ ProfileEdit } />
         <Route path="/profile" component={ Profile } />
         <Route path="/favorites" component={ Favorites } />
-        <Route path="/search" component={ Search } />
+        <Route
+          path="/search"
+          render={ (props) => (
+            <Search
+              { ...props }
+              { ...this.state }
+              handleChange={ this.handleChange }
+              handleSearchButtonValidation={ this.handleSearchButtonValidation }
+            />
+          ) }
+        />
         <Route
           exact
           path="/"

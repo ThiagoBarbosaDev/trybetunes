@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import AlbumCard from '../components/albumCard';
 import Loading from '../components/Loading';
+import AlbumCard from '../components/AlbumCard';
 
 class Search extends React.Component {
   renderCards = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Input from './Input';
-import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+// import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class MusicCard extends React.Component {
   // constructor() {
@@ -12,7 +12,8 @@ class MusicCard extends React.Component {
   // }
 
   // componentDidMount() {
-  //   this.handleCheckboxCheck();
+  //   // this.handleCheckboxCheck();
+  //   this.handleCheck();
   // }
 
   // handleCheckboxCheck = async () => {
@@ -22,10 +23,22 @@ class MusicCard extends React.Component {
   //   this.setState({ isChecked: handleData });
   // }
 
+  // handleCheck = () => {
+  //   const {favSongs, data} = this.props;
+  //   const isChecked = favSongs
+  //     .some((favSongsData) => favSongsData.trackId === data.trackId);
+  //   console.log(isChecked);
+  //   this.setState({isChecked: isChecked});
+  //   }
+
   render() {
-    const { onClick, data, isChecked } = this.props;
-    // const { isChecked } = this.state;
-    console.log(isChecked);
+    // const { onClick, data, isChecked } = this.props;
+    const { onClick, data } = this.props;
+    const { isChecked } = this.props;
+
+    // const isChecked = favSongs
+    //   .some((favSongsData) => favSongsData.trackId === data.trackId);
+
     return (
       <div>
         <audio data-testid="audio-component" src={ data.previewUrl } controls>

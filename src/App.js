@@ -7,7 +7,6 @@ import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import Search from './pages/Search';
-import { addSong } from './services/favoriteSongsAPI';
 import searchAlbumsAPI from './services/searchAlbumsAPI';
 
 class App extends React.Component {

@@ -16,11 +16,9 @@ class Album extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    await this.fetchMusics();
-    await this.handleGetFav();
-    // const { favoriteSongs } = this.state;
-    // console.log('cdm', favoriteSongs.trackId);
+  componentDidMount() {
+    this.fetchMusics();
+    this.handleGetFav();
   }
 
   // componentDidUpdate() {
@@ -31,6 +29,7 @@ class Album extends React.Component {
   handleAddFav = async (musicObj) => {
     this.setState((prevState) => ({ isLoading: !prevState.isLoading }));
     await addSong(musicObj);
+    this.handleGetFav();
     this.setState((prevState) => ({ isLoading: !prevState.isLoading }));
   }
 
@@ -43,14 +42,17 @@ class Album extends React.Component {
 
   fetchMusics = async () => {
     const { match: { params: { id } } } = this.props;
-    const { musicData } = this.state;
     const allMusicData = await getMusics(id);
     this.setState({ musicData: [...allMusicData] });
-    return musicData;
+    console.log(allMusicData[0]);
+    console.log(allMusicData[0].artistName);
   }
 
   renderMusicPreview = () => {
     const { musicData, favoriteSongs } = this.state;
+    // console.log(musicData[1].trackId);
+    // console.log(musicData[1]?.trackId);
+    // musicData ? console.log(musicData[1].trackId) : console.log('nope');
     const favData = favoriteSongs.map((data) => (data.trackId));
     const previewUrlData = musicData.slice(1)
       .map((data) => ({
@@ -58,12 +60,17 @@ class Album extends React.Component {
         trackName: data.trackName,
         trackId: data.trackId,
       }));
+
     return previewUrlData.map((data) => {
       const isFavorite = favData.includes(data.trackId);
+      console.log(isFavorite);
+      // console.log(isFavorite.trackId);
       return (
         <MusicCard
           { ...data }
-          checked={ isFavorite }
+          favSongs={ favoriteSongs }
+          isChecked={ isFavorite }
+          // teste={ isFavorite }
           key={ data.trackName }
           onClick={ this.handleAddFav }
           data={ data }
@@ -74,14 +81,13 @@ class Album extends React.Component {
 
   render() {
     const { musicData, isLoading } = this.state;
-
     return (
       <>
         <Header />
         {isLoading ? <Loading /> : (
           <>
             <div>
-              {this.renderMusicPreview()}
+              { this.renderMusicPreview()}
             </div>
             <div data-testid="page-album">
               <h2 data-testid="artist-name">

@@ -38,7 +38,7 @@ class Header extends React.Component {
           <Loading />
         ) : (
           <p data-testid="header-user-name">
-            { userName.name }
+            {`Usuário: ${userName.name}`}
           </p>
         )}
       </header>

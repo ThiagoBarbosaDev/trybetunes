@@ -81,42 +81,42 @@ class Album extends React.Component {
   render() {
     const { musicData, isLoading } = this.state;
     return (
+    // <>
+    //   <Header />
+    //   {isLoading && <Loading />}
+    //   <>
+    //     <div>
+    //       { this.renderMusicPreview()}
+    //     </div>
+    //     <div data-testid="page-album">
+    //       <h2 data-testid="artist-name">
+    //         { musicData[0]?.artistName }
+    //       </h2>
+    //       <h3 data-testid="album-name">
+    //         { musicData[0]?.collectionName }
+    //       </h3>
+    //     </div>
+    //   </>
+
+      // </>
       <>
         <Header />
-        {isLoading && <Loading />}
-        <>
-          <div>
-            { this.renderMusicPreview()}
-          </div>
-          <div data-testid="page-album">
-            <h2 data-testid="artist-name">
-              { musicData[0]?.artistName }
-            </h2>
-            <h3 data-testid="album-name">
-              { musicData[0]?.collectionName }
-            </h3>
-          </div>
-        </>
-
+        {isLoading ? <Loading /> : (
+          <>
+            <div>
+              { this.renderMusicPreview()}
+            </div>
+            <div data-testid="page-album">
+              <h2 data-testid="artist-name">
+                { musicData[0]?.artistName }
+              </h2>
+              <h3 data-testid="album-name">
+                { musicData[0]?.collectionName }
+              </h3>
+            </div>
+          </>
+        )}
       </>
-      // <>
-      //   <Header />
-      //   {isLoading ? <Loading /> : (
-      //     <>
-      //       <div>
-      //         { this.renderMusicPreview()}
-      //       </div>
-      //       <div data-testid="page-album">
-      //         <h2 data-testid="artist-name">
-      //           { musicData[0]?.artistName }
-      //         </h2>
-      //         <h3 data-testid="album-name">
-      //           { musicData[0]?.collectionName }
-      //         </h3>
-      //       </div>
-      //     </>
-      //   )}
-      // </>
     );
   }
 }

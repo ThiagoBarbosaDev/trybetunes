@@ -28,8 +28,7 @@ class Album extends React.Component {
 
   handleAddFav = async (musicObj) => {
     this.setState((prevState) => ({ isLoading: !prevState.isLoading }));
-    await addSong(musicObj);
-    this.handleGetFav();
+    await addSong(musicObj).then(() => this.handleGetFav());
     this.setState((prevState) => ({ isLoading: !prevState.isLoading }));
   }
 
@@ -44,8 +43,8 @@ class Album extends React.Component {
     const { match: { params: { id } } } = this.props;
     const allMusicData = await getMusics(id);
     this.setState({ musicData: [...allMusicData] });
-    console.log(allMusicData[0]);
-    console.log(allMusicData[0].artistName);
+    // console.log(allMusicData[0]);
+    // console.log(allMusicData[0].artistName);
   }
 
   renderMusicPreview = () => {
@@ -63,7 +62,7 @@ class Album extends React.Component {
 
     return previewUrlData.map((data) => {
       const isFavorite = favData.includes(data.trackId);
-      console.log(isFavorite);
+      // console.log(isFavorite);
       // console.log(isFavorite.trackId);
       return (
         <MusicCard
@@ -84,22 +83,40 @@ class Album extends React.Component {
     return (
       <>
         <Header />
-        {isLoading ? <Loading /> : (
-          <>
-            <div>
-              { this.renderMusicPreview()}
-            </div>
-            <div data-testid="page-album">
-              <h2 data-testid="artist-name">
-                { musicData[0]?.artistName }
-              </h2>
-              <h3 data-testid="album-name">
-                { musicData[0]?.collectionName }
-              </h3>
-            </div>
-          </>
-        )}
+        {isLoading && <Loading />}
+        <>
+          <div>
+            { this.renderMusicPreview()}
+          </div>
+          <div data-testid="page-album">
+            <h2 data-testid="artist-name">
+              { musicData[0]?.artistName }
+            </h2>
+            <h3 data-testid="album-name">
+              { musicData[0]?.collectionName }
+            </h3>
+          </div>
+        </>
+
       </>
+      // <>
+      //   <Header />
+      //   {isLoading ? <Loading /> : (
+      //     <>
+      //       <div>
+      //         { this.renderMusicPreview()}
+      //       </div>
+      //       <div data-testid="page-album">
+      //         <h2 data-testid="artist-name">
+      //           { musicData[0]?.artistName }
+      //         </h2>
+      //         <h3 data-testid="album-name">
+      //           { musicData[0]?.collectionName }
+      //         </h3>
+      //       </div>
+      //     </>
+      //   )}
+      // </>
     );
   }
 }

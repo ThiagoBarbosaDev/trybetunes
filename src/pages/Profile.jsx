@@ -27,9 +27,8 @@ class Profile extends React.Component {
   toggleLoading = () => {
     this.setState((prevState) => ({
       isLoading: !prevState.isLoading,
-    }))
+    }));
   }
-
 
   render() {
     const { isLoading, userData } = this.state;

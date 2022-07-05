@@ -30,7 +30,6 @@ class Album extends React.Component {
     this.setState((prevState) => ({ isLoading: !prevState.isLoading }));
   }
 
-  // todo: mudar variavel para update fav
   updateFavorites = async () => {
     const data = await getFavoriteSongs();
     this.setState({ favoriteSongs: [...data] });

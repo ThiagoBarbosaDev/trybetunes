@@ -18,25 +18,20 @@ class Album extends React.Component {
 
   componentDidMount() {
     this.fetchMusics();
-    this.handleGetFav();
+    this.updateFavorites();
   }
-
-  // componentDidUpdate() {
-  //   this.handleGetFav();
-  // acusa erro de memoryleak
-  // }
 
   handleAddFav = async (musicObj) => {
     const { favoriteSongs } = this.state;
     this.setState((prevState) => ({ isLoading: !prevState.isLoading }));
     const isFavorite = favoriteSongs.some((data) => data.trackId === musicObj.trackId);
     if (isFavorite) { await removeSong(musicObj); } else { await addSong(musicObj); }
-    await this.handleGetFav();
+    await this.updateFavorites();
     this.setState((prevState) => ({ isLoading: !prevState.isLoading }));
   }
 
   // todo: mudar variavel para update fav
-  handleGetFav = async () => {
+  updateFavorites = async () => {
     const data = await getFavoriteSongs();
     this.setState({ favoriteSongs: [...data] });
   }
@@ -45,8 +40,6 @@ class Album extends React.Component {
     const { match: { params: { id } } } = this.props;
     const allMusicData = await getMusics(id);
     this.setState({ musicData: [...allMusicData] });
-    // console.log(allMusicData[0]);
-    // console.log(allMusicData[0].artistName);
   }
 
   renderMusicPreview = () => {
@@ -61,14 +54,11 @@ class Album extends React.Component {
 
     return previewUrlData.map((data) => {
       const isFavorite = favData.includes(data.trackId);
-      // console.log(isFavorite);
-      // console.log(isFavorite.trackId);
       return (
         <MusicCard
           { ...data }
           favSongs={ favoriteSongs }
           isChecked={ isFavorite }
-          // teste={ isFavorite }
           key={ data.trackName }
           onClick={ this.handleAddFav }
           data={ data }
@@ -84,7 +74,6 @@ class Album extends React.Component {
         <Header />
         {isLoading ? <Loading /> : (
           <>
-            {/* <div>{!!musicData[0].trackId && musicData[0].trackId}</div> */}
             <div>
               { this.renderMusicPreview()}
             </div>

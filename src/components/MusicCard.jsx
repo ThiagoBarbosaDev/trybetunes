@@ -1,43 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Input from './Input';
-// import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class MusicCard extends React.Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     isChecked: false,
-  //   };
-  // }
-
-  // componentDidMount() {
-  //   // this.handleCheckboxCheck();
-  //   this.handleCheck();
-  // }
-
-  // handleCheckboxCheck = async () => {
-  //   const { data: { trackId } } = this.props;
-  //   const fetchData = await getFavoriteSongs();
-  //   const handleData = fetchData.some((data) => data.trackId === trackId);
-  //   this.setState({ isChecked: handleData });
-  // }
-
-  // handleCheck = () => {
-  //   const {favSongs, data} = this.props;
-  //   const isChecked = favSongs
-  //     .some((favSongsData) => favSongsData.trackId === data.trackId);
-  //   console.log(isChecked);
-  //   this.setState({isChecked: isChecked});
-  //   }
-
   render() {
-    // const { onClick, data, isChecked } = this.props;
-    const { onClick, data } = this.props;
-    const { isChecked } = this.props;
-
-    // const isChecked = favSongs
-    //   .some((favSongsData) => favSongsData.trackId === data.trackId);
+    const { onClick, data, isChecked } = this.props;
 
     return (
       <div>

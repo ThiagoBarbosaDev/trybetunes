@@ -17,17 +17,12 @@ class Profile extends React.Component {
     this.fetchUser();
   }
 
+  toggleLoading = () => this.setState((prvState) => ({ isLoading: !prvState.isLoading }));
+
   fetchUser = async () => {
     this.toggleLoading();
     const userData = await getUser();
-    this.setState({ userData });
-    this.toggleLoading();
-  }
-
-  toggleLoading = () => {
-    this.setState((prevState) => ({
-      isLoading: !prevState.isLoading,
-    }));
+    this.setState((prvState) => ({ isLoading: !prvState.isLoading, userData }));
   }
 
   render() {

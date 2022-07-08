@@ -1,26 +1,62 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Loading from '../components/Loading';
 import AlbumCard from '../components/AlbumCard';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 class Search extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isButtonDisabled: true,
+      isLoading: false,
+      albumData: [],
+      searchInput: '',
+      lastestQuery: '',
+    };
+  }
+
+  handleOnClickSearch = async () => {
+    const { searchInput } = this.state;
+
+    this.setState((prvState) => ({
+      isLoading: !prvState.isLoading,
+      lastestQuery: searchInput,
+    }));
+
+    const albumData = await searchAlbumsAPI(searchInput);
+
+    this.setState((prvState) => ({
+      isLoading: !prvState.isLoading,
+      searchInput: '',
+      albumData,
+    }));
+  }
+
+  handleChange = ({ target: { value, name } }) => {
+    this.setState({ [name]: value });
+    this.handleButtonValidation(value);
+  }
+
+  handleButtonValidation = (inputUserValue) => {
+    const minValidLength = 2;
+    const isButtonDisabled = inputUserValue.length < minValidLength;
+    this.setState({ isButtonDisabled });
+  }
+
   renderCards = () => {
-    const { albumData } = this.props;
-    const data = albumData;
-    return data[0]
-      ? data
-        .map((card) => (
-          <AlbumCard data={ { ...card } } key={ `${card.collectionId}` } />))
+    const { albumData } = this.state;
+    return albumData.length
+      ? albumData.map((card) => (
+        <AlbumCard data={ { ...card } } key={ `${card.collectionId}` } />
+      ))
       : <p>Nenhum álbum foi encontrado</p>;
   }
 
   render() {
-    const { handleChange, searchInput, handleSearchButtonValidation,
-      isSearchButtonDisabled, handleOnClickSearch, isSearchLoading,
-      lastSearchQuery } = this.props;
+    const { searchInput, isLoading, isButtonDisabled, lastestQuery } = this.state;
     return (
       <div data-testid="page-search">
         <Header dataTestId="header-component" />
@@ -32,23 +68,23 @@ class Search extends React.Component {
               type="text"
               name="searchInput"
               value={ searchInput }
-              onChange={ (e) => handleChange(e, handleSearchButtonValidation) }
+              onChange={ (evt) => this.handleChange(evt) }
             />
             <Button
               dataTestId="search-artist-button"
-              disabled={ isSearchButtonDisabled }
+              disabled={ isButtonDisabled }
               type="button"
-              onClick={ handleOnClickSearch }
+              onClick={ this.handleOnClickSearch }
             >
               Pesquisar
             </Button>
           </fieldset>
         </form>
         <div>
-          {isSearchLoading ? <Loading /> : (
+          { isLoading ? <Loading /> : !!lastestQuery && (
             <>
               <p>
-                {`Resultado de álbuns de: ${lastSearchQuery}`}
+                {`Resultado de álbuns de: ${lastestQuery}`}
               </p>
               { this.renderCards() }
             </>
@@ -58,34 +94,5 @@ class Search extends React.Component {
     );
   }
 }
-
-Search.propTypes = {
-  handleSearchButtonValidation: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  searchInput: PropTypes.string.isRequired,
-  lastSearchQuery: PropTypes.string.isRequired,
-  isSearchButtonDisabled: PropTypes.bool.isRequired,
-  isSearchLoading: PropTypes.bool.isRequired,
-  handleOnClickSearch: PropTypes.func.isRequired,
-  albumData: PropTypes.arrayOf(PropTypes.shape({
-    artistId: PropTypes.number,
-    artistName: PropTypes.string,
-    collectionId: PropTypes.number,
-    collectionName: PropTypes.string,
-    collectionPrice: PropTypes.number,
-    artworkUrl100: PropTypes.string,
-    releaseDate: PropTypes.string,
-    trackCount: PropTypes.number,
-  })).isRequired,
-};
-
-// Search.defaultProps = {
-//   albumData: {
-//     collectionId: 0,
-//     artistName: '',
-//     artworkUrl100: '',
-//     collectionName: '',
-//   },
-// };
 
 export default Search;

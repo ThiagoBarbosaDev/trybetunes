@@ -7,97 +7,17 @@ import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import Search from './pages/Search';
-import searchAlbumsAPI from './services/searchAlbumsAPI';
 
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      logInInputUser: '',
-      isLoginButtonDisabled: true,
-      searchInput: '',
-      isSearchButtonDisabled: true,
-      albumData: [],
-      isSearchLoading: false,
-      lastSearchQuery: '',
-      favoriteSongList: [],
-    };
-  }
-
-  handleChange = ({ target: { value, checked, type, name } }, callback) => {
-    const val = type === 'checkbox' ? checked : value;
-    if (callback) this.setState({ [name]: val }, () => callback());
-    this.setState({ [name]: val });
-  }
-
-  handleButtonValidation = () => {
-    const { logInInputUser } = this.state;
-    const minUserInputLength = 3;
-    const isMinLengthValid = logInInputUser.length < minUserInputLength;
-    this.setState({
-      isLoginButtonDisabled: isMinLengthValid,
-    });
-  }
-
-  handleSearchButtonValidation = () => {
-    const { searchInput } = this.state;
-    const minUserInputLength = 2;
-    const isMinLengthValid = searchInput.length < minUserInputLength;
-    this.setState({
-      isSearchButtonDisabled: isMinLengthValid,
-    });
-  }
-
-  handleOnClickSearch = async () => {
-    const { searchInput } = this.state;
-    this.setState({ isSearchLoading: true, lastSearchQuery: searchInput });
-    const response = await searchAlbumsAPI(searchInput);
-    const filteredResponse = response
-      .filter((data) => data.artistName
-        .toLowerCase()
-        .includes(searchInput.toLowerCase()));
-    this.setState({
-      isSearchLoading: false,
-      searchInput: '',
-      albumData: filteredResponse });
-  }
-
   render() {
     return (
       <Switch>
-        <Route
-          path="/album/:id"
-          render={ (props) => (<Album
-            { ...props }
-          />) }
-        />
+        <Route path="/album/:id" component={ Album } />
         <Route path="/profile/edit" component={ ProfileEdit } />
         <Route path="/profile" component={ Profile } />
         <Route path="/favorites" component={ Favorites } />
-        <Route
-          path="/search"
-          render={ (props) => (
-            <Search
-              { ...props }
-              { ...this.state }
-              handleChange={ this.handleChange }
-              handleSearchButtonValidation={ this.handleSearchButtonValidation }
-              handleOnClickSearch={ this.handleOnClickSearch }
-            />
-          ) }
-        />
-        <Route
-          exact
-          path="/"
-          render={ (props) => (
-            <Login
-              { ...props }
-              { ...this.state }
-              handleButtonValidation={ this.handleButtonValidation }
-              handleChange={ this.handleChange }
-            />
-          ) }
-        />
+        <Route path="/search" component={ Search } />
+        <Route exact path="/" component={ Login } />
         <Route component={ NotFound } />
       </Switch>
     );

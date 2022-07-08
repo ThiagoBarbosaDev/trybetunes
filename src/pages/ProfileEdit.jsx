@@ -31,22 +31,11 @@ class ProfileEdit extends React.Component {
     this.toggleLoading();
   }
 
-  toggleLoading = () => {
-    this.setState((prevState) => ({
-      isLoading: !prevState.isLoading,
-    }));
-  }
+  toggleLoading = () => this.setState((prvState) => ({ isLoading: !prvState.isLoading }));
 
   handleChange = ({ target: { value, checked, type, name } }) => {
     const val = type === 'checkbox' ? checked : value;
-    this.setState((prevState) => ({ userData:
-
-       { name: prevState.userData.name,
-         email: prevState.userData.email,
-         description: prevState.userData.description,
-         image: prevState.userData.image,
-         [name]: val,
-       },
+    this.setState((prevState) => ({ userData: { ...prevState.userData, [name]: val },
     }));
   }
 
@@ -74,7 +63,6 @@ class ProfileEdit extends React.Component {
         <Header />
         { isLoading ? <Loading /> : (
           <form>
-            {/* <button onClick={() => console.log(isValid)} type='button'> Logger </button> */}
             <Input
               name="image"
               type="text"

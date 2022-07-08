@@ -9,38 +9,42 @@ class Header extends React.Component {
     super();
     this.state = {
       isLoading: true,
-      userName: '',
+      userData: {},
     };
   }
 
   componentDidMount() {
-    this.handleUserName();
+    this.fetchUserData();
   }
 
-  handleUserName = async () => {
-    const fetchUserName = await getUser();
-    this.setState((prevState) => ({ isLoading: !prevState.isLoading }));
-    this.setState({ userName: fetchUserName });
+  fetchUserData = async () => {
+    const userData = await getUser();
+    this.setState((prevState) => ({
+      isLoading: !prevState.isLoading,
+      userData,
+    }));
   }
 
   render() {
-    const { isLoading, userName } = this.state;
+    const { isLoading, userData: { name } } = this.state;
     return (
       <header
         data-testid="header-component"
       >
-        <ul>
-          <li><Link to="/search " data-testid="link-to-search">Search</Link></li>
-          <li><Link to="/favorites " data-testid="link-to-favorites">Favorites</Link></li>
-          <li><Link to="/profile" data-testid="link-to-profile">Perfil</Link></li>
-        </ul>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <p data-testid="header-user-name">
-            {`${userName.name}`}
-          </p>
-        )}
+        <nav>
+          <ul>
+            <li>
+              <Link to="/search " data-testid="link-to-search">Search</Link>
+            </li>
+            <li>
+              <Link to="/favorites " data-testid="link-to-favorites">Favorites</Link>
+            </li>
+            <li>
+              <Link to="/profile" data-testid="link-to-profile">Perfil</Link>
+            </li>
+          </ul>
+        </nav>
+        {isLoading ? <Loading /> : <p data-testid="header-user-name">{name}</p>}
       </header>
     );
   }

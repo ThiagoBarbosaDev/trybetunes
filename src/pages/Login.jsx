@@ -10,35 +10,45 @@ class Login extends React.Component {
     super();
     this.state = {
       isLoading: false,
+      isButtonDisabled: true,
+      inputUser: '',
     };
   }
 
   handleLogIn = async () => {
-    const { logInInputUser, history: { push } } = this.props;
+    const { history: { push } } = this.props;
+    const { inputUser } = this.state;
     this.setState((prevState) => ({ isLoading: !prevState.loading }));
-    await createUser({ name: logInInputUser });
+    await createUser({ name: inputUser });
     push('/search');
   }
 
+  handleChange = ({ target: { value, name } }) => {
+    this.setState({ [name]: value });
+    this.handleButtonValidation(value);
+  }
+
+  handleButtonValidation = (inputUserValue) => {
+    const minValidLength = 3;
+    const isButtonDisabled = inputUserValue.length < minValidLength;
+    this.setState({ isButtonDisabled });
+  }
+
   render() {
-    const { logInInputUser, handleChange, isLoginButtonDisabled,
-      handleButtonValidation } = this.props;
-    const { isLoading } = this.state;
+    const { isLoading, inputUser, isButtonDisabled } = this.state;
     return (
       <div data-testid="page-login">
         Login
         <Input
           dataTestId="login-name-input"
           type="text"
-          name="logInInputUser"
-          value={ logInInputUser }
-          onChange={ (e) => {
-            handleChange(e, handleButtonValidation);
-          } }
+          name="inputUser"
+          value={ inputUser }
+          onChange={ (evt) => this.handleChange(evt) }
         />
         <Button
           dataTestId="login-submit-button"
-          disabled={ isLoginButtonDisabled }
+          disabled={ isButtonDisabled }
           type="button"
           onClick={ this.handleLogIn }
         >
@@ -51,10 +61,6 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  isLoginButtonDisabled: PropTypes.bool.isRequired,
-  logInInputUser: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleButtonValidation: PropTypes.func.isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 

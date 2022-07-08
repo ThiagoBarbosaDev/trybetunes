@@ -10,8 +10,8 @@ class Album extends React.Component {
   constructor() {
     super();
     this.state = {
-      musicData: [],
       isLoading: false,
+      musicData: [],
       favoriteSongs: [],
     };
   }
@@ -21,18 +21,22 @@ class Album extends React.Component {
     this.updateFavorites();
   }
 
-  handleAddFav = async (musicObj) => {
-    const { favoriteSongs } = this.state;
-    this.setState((prevState) => ({ isLoading: !prevState.isLoading }));
-    const isFavorite = favoriteSongs.some((data) => data.trackId === musicObj.trackId);
-    if (isFavorite) { await removeSong(musicObj); } else { await addSong(musicObj); }
-    await this.updateFavorites();
+  toggleLoading = () => {
     this.setState((prevState) => ({ isLoading: !prevState.isLoading }));
   }
 
+  addRemoveFavorite = async (musicObj) => {
+    const { favoriteSongs } = this.state;
+    const isFavorite = favoriteSongs.some((data) => data.trackId === musicObj.trackId);
+    this.toggleLoading();
+    if (isFavorite) { await removeSong(musicObj); } else { await addSong(musicObj); }
+    await this.updateFavorites();
+    this.toggleLoading();
+  }
+
   updateFavorites = async () => {
-    const data = await getFavoriteSongs();
-    this.setState({ favoriteSongs: [...data] });
+    const localStorageData = await getFavoriteSongs();
+    this.setState({ favoriteSongs: [...localStorageData] });
   }
 
   fetchMusics = async () => {
@@ -44,14 +48,8 @@ class Album extends React.Component {
   renderMusicPreview = () => {
     const { musicData, favoriteSongs } = this.state;
     const favData = favoriteSongs.map((data) => (data.trackId));
-    const previewUrlData = musicData.slice(1)
-      .map((data) => ({
-        previewUrl: data.previewUrl,
-        trackName: data.trackName,
-        trackId: data.trackId,
-      }));
-
-    return previewUrlData.map((data) => {
+    const musicTracksData = musicData.slice(1);
+    return musicTracksData.map((data) => {
       const isFavorite = favData.includes(data.trackId);
       return (
         <MusicCard
@@ -59,7 +57,7 @@ class Album extends React.Component {
           favSongs={ favoriteSongs }
           isChecked={ isFavorite }
           key={ data.trackName }
-          onClick={ this.handleAddFav }
+          onClick={ this.addRemoveFavorite }
           data={ data }
         />
       );

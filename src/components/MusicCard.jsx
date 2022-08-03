@@ -17,6 +17,7 @@ class MusicCard extends React.Component {
           .
         </audio>
         <Input
+          className="favorite-checkbox"
           name={ `favCheckbox${data.trackId}` }
           type="checkbox"
           checked={ isChecked }

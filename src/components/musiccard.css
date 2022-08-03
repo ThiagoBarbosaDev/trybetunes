@@ -1,0 +1,36 @@
+.music-card-wrapper {
+  padding: 25px 0;
+  border-top: 1px solid #E1E5EB;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 25px;
+}
+
+.music-card-wrapper:last-child {
+  padding: 25px 0;
+  border-bottom: 1px solid #E1E5EB;
+}
+
+.center {
+  justify-content: center;
+}
+
+.end {
+  justify-content: end;
+}
+
+.music-card-wrapper img {
+  border-radius: 50%;
+  height: 54px;
+}
+
+.track-name {
+  width: 150px;
+  text-align: center;
+}
+
+input {
+  display: none;
+}
+

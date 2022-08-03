@@ -1,0 +1,33 @@
+/* stylelint-disable order/properties-alphabetical-order */
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;700&display=swap');
+
+.album-data-container {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 160px;
+  gap: 80px;
+  width: 100%;
+  margin: auto;
+  justify-content: center;
+}
+
+.album-data-container__album-image {
+  height: auto;
+  width: 290px;
+}
+
+.album-data-container__album-name {
+  padding: 25px 0 5px;
+  font-family: Epilogue , helvetica , arial , sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  color: #023031;
+  line-height: 37px;
+}
+
+.album-data-container__album-artist {
+  font-family: Epilogue , helvetica , arial , sans-serif;
+  font-weight: 300;
+  font-size: 24px;
+  color: #023031;
+}

@@ -1,20 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Input from './Input';
+import './musiccard.css';
 
 class MusicCard extends React.Component {
   render() {
-    const { onClick, data, isChecked } = this.props;
-
+    const { onClick, data, isChecked, flex, image } = this.props;
     return (
-      <div>
+      <div className={ `music-card-wrapper ${flex}` }>
+        {image && <img src={ data?.artworkUrl100 } alt="album" />}
+        <p className="track-name">{data.trackName}</p>
         <audio data-testid="audio-component" src={ data.previewUrl } controls>
           <track kind="captions" />
           O seu navegador não suporta o elemento
           <code>audio</code>
           .
         </audio>
-        {data.trackName}
         <Input
           name={ `favCheckbox${data.trackId}` }
           type="checkbox"
@@ -22,7 +23,7 @@ class MusicCard extends React.Component {
           dataTestId={ `checkbox-music-${data.trackId}` }
           onChange={ () => onClick(data) }
         >
-          Favorita
+          { isChecked ? '💚' : '🖤' }
         </Input>
       </div>
     );
@@ -34,9 +35,16 @@ MusicCard.propTypes = {
     previewUrl: PropTypes.string.isRequired,
     trackName: PropTypes.string.isRequired,
     trackId: PropTypes.number.isRequired,
+    artworkUrl100: PropTypes.string,
   }).isRequired,
   onClick: PropTypes.func.isRequired,
   isChecked: PropTypes.bool.isRequired,
+  flex: PropTypes.string.isRequired,
+  image: PropTypes.string,
+};
+
+MusicCard.defaultProps = {
+  image: '',
 };
 
 export default MusicCard;

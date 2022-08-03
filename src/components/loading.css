@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400&display=swap');
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-container__text {
+  font-family: Epilogue , sans-serif;
+  font-weight: 300;
+  font-size: 60px;
+  color: #023031;
+}
+
+.loading-container__textpositive {
+  font-family: Epilogue , sans-serif;
+  font-weight: 300;
+  font-size: 60px;
+  color: #023031;
+}
+
+.white {
+  color: white;
+}

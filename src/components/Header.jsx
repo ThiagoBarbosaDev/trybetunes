@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
 import Loading from './Loading';
+import './header.css';
+import defaultUserLogo from '../assets/icons/default.png';
+import trybeTunesLogo from '../assets/logo/logo.png';
 
 class Header extends React.Component {
   constructor() {
@@ -26,25 +28,72 @@ class Header extends React.Component {
   }
 
   render() {
-    const { isLoading, userData: { name } } = this.state;
+    const { isLoading, userData: { name, image } } = this.state;
     return (
       <header
         data-testid="header-component"
       >
+        <div className="user-container">
+          <img className="user-container__logo" src={ trybeTunesLogo } alt="logo" />
+          {isLoading ? <Loading positive="white" /> : (
+            <div className="user-background">
+              { image ? (
+                <img
+                  className="user-container__profile-logo"
+                  alt="profile"
+                  src={ image }
+                />
+              ) : (
+                <img
+                  src={ defaultUserLogo }
+                  alt="profile"
+                  className="user-container__profile-logo"
+                />
+              )}
+              <p className="header-user" data-testid="header-user-name">{name}</p>
+            </div>
+          )}
+        </div>
         <nav>
           <ul>
             <li>
-              <Link to="/search " data-testid="link-to-search">Search</Link>
+              <NavLink
+                to="/search"
+                data-testid="link-to-search"
+                style={ (isActive) => ({
+                  color: isActive ? 'white' : '#036B52',
+                  background: isActive ? '#036B52' : null,
+                }) }
+              >
+                Search
+              </NavLink>
             </li>
             <li>
-              <Link to="/favorites " data-testid="link-to-favorites">Favorites</Link>
+              <NavLink
+                to="/favorites"
+                data-testid="link-to-favorites"
+                style={ (isActive) => ({
+                  color: isActive ? 'white' : '#036B52',
+                  background: isActive ? '#036B52' : null,
+                }) }
+              >
+                Favorites
+              </NavLink>
             </li>
             <li>
-              <Link to="/profile" data-testid="link-to-profile">Perfil</Link>
+              <NavLink
+                to="/profile"
+                data-testid="link-to-profile"
+                style={ (isActive) => ({
+                  color: isActive ? 'white' : '#036B52',
+                  background: isActive ? '#036B52' : null,
+                }) }
+              >
+                Perfil
+              </NavLink>
             </li>
           </ul>
         </nav>
-        {isLoading ? <Loading /> : <p data-testid="header-user-name">{name}</p>}
       </header>
     );
   }

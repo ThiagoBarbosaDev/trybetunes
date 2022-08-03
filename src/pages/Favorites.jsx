@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import MusicCard from '../components/MusicCard';
 import { getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
+import './favorites.css';
 
 class Favorites extends React.Component {
   constructor() {
@@ -41,10 +42,12 @@ class Favorites extends React.Component {
     const { favSongs } = this.state;
     return favSongs.map((song) => (
       <MusicCard
-        isChecked="true"
+        isChecked={ !!'true' }
         key={ song.trackId }
         data={ song }
         onClick={ this.removeFavorite }
+        flex="center"
+        image="true"
       />
     ));
   }
@@ -54,8 +57,8 @@ class Favorites extends React.Component {
     return (
       <>
         <Header />
-        <div data-testid="page-favorites">
-          Favorites
+        <div data-testid="page-favorites" className="favorites-container">
+          <h2>Músicas favoritas:</h2>
           {isLoading ? (<Loading />) : (
             this.renderAudioTracks()
           ) }

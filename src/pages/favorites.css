@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;700&display=swap');
+
+.favorites-container {
+  padding: 100px 500px;
+}
+
+.favorites-container h2 {
+  font-size: 24px;
+  padding-bottom: 44px;
+  font-family: Epilogue , Arial , Helvetica , sans-serif;
+  font-weight: 300;
+  color: #001813;
+}

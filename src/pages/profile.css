@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;700&display=swap');
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin: auto;
+  padding: 100px 0 0 0;
+  gap: 10px;
+  max-width: 500px;
+}
+
+.profile-container__wrapper {
+  display: flex;
+  flex: row;
+  padding-bottom: 40px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 89px;
+}
+
+.profile-container__wrapper img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.profile-container h2 {
+  color: #3D495C;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding-bottom: 10px;
+}
+
+.profile-container p {
+  color: #3D495C;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 12px;
+  padding-bottom: 20px;
+}
+
+.profile-container__link {
+  flex-grow: 0;
+  color: #003BE5;
+  border: 2px solid #003BE5;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 14px;
+  padding: 10px;
+  height: 30px;
+  border-radius: 5px;
+}

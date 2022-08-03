@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import Loading from '../components/Loading';
 import AlbumCard from '../components/AlbumCard';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import './search.css';
 
 class Search extends React.Component {
   constructor() {
@@ -47,12 +48,17 @@ class Search extends React.Component {
   }
 
   renderCards = () => {
-    const { albumData } = this.state;
+    const { albumData, lastestQuery } = this.state;
     return albumData.length
-      ? albumData.map((card) => (
+      ? (
+        <p>
+          {`Resultado de álbuns de: ${lastestQuery}`}
+        </p>
+      )
+      && (albumData.map((card) => (
         <AlbumCard data={ { ...card } } key={ `${card.collectionId}` } />
-      ))
-      : <p>Nenhum álbum foi encontrado</p>;
+      )))
+      : <p className="query-not-found">Nenhum álbum foi encontrado</p>;
   }
 
   render() {
@@ -60,36 +66,32 @@ class Search extends React.Component {
     return (
       <div data-testid="page-search">
         <Header dataTestId="header-component" />
-        <form>
-          <fieldset>
-            <legend>Search Tunes</legend>
-            <Input
-              dataTestId="search-artist-input"
-              type="text"
-              name="searchInput"
-              value={ searchInput }
-              onChange={ (evt) => this.handleChange(evt) }
-            />
-            <Button
-              dataTestId="search-artist-button"
-              disabled={ isButtonDisabled }
-              type="button"
-              onClick={ this.handleOnClickSearch }
-            >
-              Pesquisar
-            </Button>
-          </fieldset>
-        </form>
-        <div>
+        <section className="search-container">
+          <Input
+            className="search-container__input"
+            dataTestId="search-artist-input"
+            type="text"
+            name="searchInput"
+            value={ searchInput }
+            placeholder="Nome do artista"
+            onChange={ (evt) => this.handleChange(evt) }
+          />
+          <Button
+            dataTestId="search-artist-button"
+            disabled={ isButtonDisabled }
+            type="button"
+            onClick={ this.handleOnClickSearch }
+          >
+            Pesquisar
+          </Button>
+        </section>
+        <section className="album-container">
           { isLoading ? <Loading /> : !!lastestQuery && (
-            <>
-              <p>
-                {`Resultado de álbuns de: ${lastestQuery}`}
-              </p>
+            <div className="album-container__album-list">
               { this.renderCards() }
-            </>
+            </div>
           )}
-        </div>
+        </section>
       </div>
     );
   }

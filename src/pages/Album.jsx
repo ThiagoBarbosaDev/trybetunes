@@ -5,6 +5,7 @@ import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
 import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
+import './album.css';
 
 class Album extends React.Component {
   constructor() {
@@ -59,6 +60,7 @@ class Album extends React.Component {
           key={ data.trackName }
           onClick={ this.addRemoveFavorite }
           data={ data }
+          flex="end"
         />
       );
     });
@@ -70,19 +72,27 @@ class Album extends React.Component {
       <>
         <Header />
         {isLoading ? <Loading /> : (
-          <>
-            <div>
-              { this.renderMusicPreview()}
-            </div>
-            <div data-testid="page-album">
-              <h2 data-testid="artist-name">
-                { musicData[0]?.artistName }
-              </h2>
-              <h3 data-testid="album-name">
+          <main className="album-data-container">
+            <div data-testid="page-album" className="album-data-container__album-wrapper">
+              <img
+                alt="album"
+                src={ musicData[0]?.artworkUrl100 }
+                className="album-data-container__album-image"
+              />
+              <h2 data-testid="album-name" className="album-data-container__album-name">
                 { musicData[0]?.collectionName }
+              </h2>
+              <h3
+                data-testid="artist-name"
+                className="album-data-container__album-artist"
+              >
+                { musicData[0]?.artistName }
               </h3>
             </div>
-          </>
+            <div className="album-data-container__tracks">
+              { this.renderMusicPreview()}
+            </div>
+          </main>
         )}
       </>
     );

@@ -4,6 +4,8 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import { createUser } from '../services/userAPI';
 import Loading from '../components/Loading';
+import logo from '../assets/logo/logopositiva.svg';
+import './login.css';
 
 class Login extends React.Component {
   constructor() {
@@ -36,26 +38,31 @@ class Login extends React.Component {
 
   render() {
     const { isLoading, inputUser, isButtonDisabled } = this.state;
+    if (isLoading) { return <Loading />; }
     return (
-      <div data-testid="page-login">
-        Login
-        <Input
-          dataTestId="login-name-input"
-          type="text"
-          name="inputUser"
-          value={ inputUser }
-          onChange={ (evt) => this.handleChange(evt) }
-        />
-        <Button
-          dataTestId="login-submit-button"
-          disabled={ isButtonDisabled }
-          type="button"
-          onClick={ this.handleLogIn }
-        >
-          Entrar
-        </Button>
-        {isLoading && <Loading />}
-      </div>
+      <main data-testid="page-login" className="login-container">
+        <img alt="trybe-logo" src={ logo } className="login-container__logo" />
+        <section className="login-container__user-input">
+          <Input
+            dataTestId="login-name-input"
+            type="text"
+            name="inputUser"
+            value={ inputUser }
+            onChange={ (evt) => this.handleChange(evt) }
+            placeholder="nome"
+            className="login-container__input"
+          />
+          <Button
+            dataTestId="login-submit-button"
+            disabled={ isButtonDisabled }
+            type="button"
+            onClick={ this.handleLogIn }
+            className="login-container__button"
+          >
+            Entrar
+          </Button>
+        </section>
+      </main>
     );
   }
 }
